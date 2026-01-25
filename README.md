@@ -3,7 +3,7 @@
 > Google Apps Script project deployed with Clasp
 
 ## 🚀 Live Deployment
-**Web App URL:** [Will be populated after deployment]
+**Web App URL:** https://script.google.com/macros/s/AKfycbxHwG-2MuwjAYFJg78glxwo--VDB6m5QTg2rQa-fRDB4v8coSc7wo2e2DxH8VPA0gSY/exec
 
 ## 📋 Project Information
 - **Script ID:** 1lm19ozWIEg2elMa7icEgeHs59f_j6yH6aqaNfoSoITSczEyaEnQnukP8
