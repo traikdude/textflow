@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <base target="_top">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+      :root {
+        --primary: #FF6B9D; /* Joyful UI Pink */
+        --secondary: #6B9DFF;
+        --bg: #f8f9fa;
+        --text: #2d3436;
+      }
+      body {
+        font-family: 'Poppins', sans-serif;
+        background-color: var(--bg);
+        color: var(--text);
+        margin: 0;
+        padding: 20px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+      }
+      .container {
+        background: white;
+        padding: 40px;
+        border-radius: 20px;
+        box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+        max-width: 600px;
+        width: 100%;
+        text-align: center;
+      }
+      h1 {
+        color: var(--primary);
+        margin-bottom: 10px;
+      }
+      p {
+        color: #636e72;
+      }
+      .btn {
+        background: linear-gradient(135deg, var(--primary), var(--secondary));
+        color: white;
+        border: none;
+        padding: 12px 30px;
+        border-radius: 50px;
+        font-size: 16px;
+        cursor: pointer;
+        transition: transform 0.2s;
+        margin-top: 20px;
+      }
+      .btn:hover {
+        transform: scale(1.05);
+      }
+      #status {
+        margin-top: 20px;
+        font-weight: 500;
+        min-height: 24px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1>✨ TextFlow</h1>
+      <p>Your new Google Apps Script Web App is ready!</p>
+      
+      <div id="status">Waiting for interaction...</div>
+      
+      <button class="btn" onclick="testConnection()">Test Connection</button>
+    </div>
+
+    <script>
+      function testConnection() {
+        const statusDiv = document.getElementById('status');
+        statusDiv.innerHTML = 'Connecting... ⏳';
+        
+        google.script.run
+          .withSuccessHandler(function(response) {
+            statusDiv.innerHTML = response + ' ✅';
+          })
+          .withFailureHandler(function(error) {
+            statusDiv.innerHTML = 'Error: ' + error.message + ' ❌';
+          })
+          .getBackendData();
+      }
+    </script>
+  </body>
+</html>
