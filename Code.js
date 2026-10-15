@@ -1,6 +1,6 @@
 /**
- * @fileoverview Main entry point for the TextFlow Web Application.
- * Served via HtmlService.
+ * @fileoverview Backend logic for TextFlow Adjuster.
+ * Handles the web app serving and Gemini API communication.
  */
 
 /**
@@ -10,63 +10,18 @@
 function doGet(e) {
   return HtmlService.createTemplateFromFile('index')
     .evaluate()
-    .setTitle('TextFlow')
-    .addMetaTag('viewport', 'width=device-width, initial-scale=1');
+    .setTitle('TextFlow Adjuster')
+    .addMetaTag('viewport', 'width=device-width, initial-scale=1')
+    .setXFrameOptionsMode(HtmlService.XFrameOptionsMode.ALLOWALL);
 }
 
 /**
- * Includes the content of a file.
- * Useful for separating CSS and JS into different files.
- * @param {string} filename - The name of the file to include.
- * @return {string} The content of the file.
+ * Calls the Google Gemini API to adjust text content.
+ * @param {string} text - The input text to process.
+ * @param {string} mode - The adjustment mode (REDUCE, ADD, EQUAL, CONDENSE).
+ * @param {number} targetCount - The target character count.
+ * @return {string} The processed text.
  */
-function include(filename) {
-  return HtmlService.createHtmlOutputFromFile(filename).getContent();
-}
-
-/**
- * Example backend function.
- * @return {string} A generic greeting.
- */
-function getBackendData() {
-  return "Connected to TextFlow Backend: " + new Date().toString();
-}
-
-/**
- * ------------------------------------------------------------------
- * PYTHON / COLAB INTEGRATION TOOLS
- * ------------------------------------------------------------------
- */
-
-/**
- * Opens the associated Google Colab notebook for data analysis.
- * NOTE: Since this is a standalone Web App, this menu will verify
- * availability if run from a bound container or via the Editor.
- */
-function openColabNotebook() {
-  const url = 'https://colab.research.google.com/github/traikdude/textflow/blob/main/python/notebooks/main_analysis.ipynb';
-  const htmlOutput = HtmlService
-    .createHtmlOutput('<script>window.open("' + url + '", "_blank"); google.script.host.close();</script>')
-    .setWidth(250)
-    .setHeight(100);
-  SpreadsheetApp.getUi().showModalDialog(htmlOutput, 'Opening Colab...');
-}
-
-/**
- * Opens the GitHub repository.
- */
-function openGitHubRepo() {
-  const url = 'https://github.com/traikdude/textflow';
-  const htmlOutput = HtmlService
-    .createHtmlOutput('<script>window.open("' + url + '", "_blank"); google.script.host.close();</script>')
-    .setWidth(250)
-    .setHeight(100);
-  SpreadsheetApp.getUi().showModalDialog(htmlOutput, 'Opening GitHub...');
-}
-
-// Recovered 2026-10-06 from deployed version 4 ("v3 - Web App Configured"): the Gemini text
-// rewriter called by the deployed index.html was never committed to git. Kept verbatim.
-// Needs Script Property GEMINI_API_KEY; the web app runs with access MYSELF.
 function adjustTextContent(text, mode, targetCount) {
   const scriptProperties = PropertiesService.getScriptProperties();
   const apiKey = scriptProperties.getProperty('GEMINI_API_KEY');
@@ -147,4 +102,11 @@ function adjustTextContent(text, mode, targetCount) {
     console.error("Gemini API Error:", error);
     throw error;
   }
+}
+
+/**
+ * Helper to include files (if needed for future splitting)
+ */
+function include(filename) {
+  return HtmlService.createHtmlOutputFromFile(filename).getContent();
 }
